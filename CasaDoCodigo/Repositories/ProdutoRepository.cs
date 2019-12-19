@@ -9,9 +9,13 @@ namespace CasaDoCodigo.Repositories
 {
     public class ProdutoRepository : BaseRepository<Produto>, IProdutoRepository
     {
-        public ProdutoRepository(ApplicationContext contexto) : base(contexto)
+        private readonly ICategoriaRepository categoriaRepositorio;
+
+        public ProdutoRepository(ApplicationContext contexto, ICategoriaRepository categoriaRepositorio) : base(contexto)
         {
+            this.categoriaRepositorio = categoriaRepositorio;
         }
+
 
         public IList<Produto> GetProdutos()
         {
@@ -20,14 +24,22 @@ namespace CasaDoCodigo.Repositories
 
         public async Task SaveProdutos(List<Livro> livros)
         {
-            foreach (var livro in livros)
+            try
             {
-                if (!dbSet.Where(p => p.Codigo == livro.Codigo).Any())
+                foreach (var livro in livros)
                 {
-                    dbSet.Add(new Produto(livro.Codigo, livro.Nome, livro.Preco));
+                    if (!dbSet.Where(p => p.Codigo == livro.Codigo).Any())
+                    {
+                        var categoria = await categoriaRepositorio.SaveCategoria(livro.Categoria);
+                        dbSet.Add(new Produto(livro.Codigo, livro.Nome, livro.Preco, categoria));
+                    }
                 }
+                await contexto.SaveChangesAsync();
             }
-            await contexto.SaveChangesAsync();
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 

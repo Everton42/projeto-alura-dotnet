@@ -27,16 +27,15 @@ namespace CasaDoCodigo.Models
         public string Nome { get; private set; }
         [Required]
         public decimal Preco { get; private set; }
-
         [Required]
         public Categoria Categoria { get; private set; }
 
-        public Produto(string codigo, string nome, decimal preco)
+        public Produto(string codigo, string nome, decimal preco, Categoria categoria)
         {
             this.Codigo = codigo;
             this.Nome = nome;
             this.Preco = preco;
-            this.Categoria = new Categoria();
+            this.Categoria = categoria;
         }
     }
 
@@ -47,25 +46,25 @@ namespace CasaDoCodigo.Models
         }
 
         public virtual Pedido Pedido { get; set; }
-        [MinLength(5, ErrorMessage = "Nome deve ter no mínimo 5 caracteres")]
-        [MaxLength(50, ErrorMessage = "Nome deve ter no máximo 50 caracteres")]
-        [Required(ErrorMessage = "Nome é obrigatório")]
+        [MinLength(5, ErrorMessage = "Nome deve ter no mï¿½nimo 5 caracteres")]
+        [MaxLength(50, ErrorMessage = "Nome deve ter no mï¿½ximo 50 caracteres")]
+        [Required(ErrorMessage = "Nome ï¿½ obrigatï¿½rio")]
         public string Nome { get; set; } = "";
-        [Required(ErrorMessage = "Email é obrigatório")]
+        [Required(ErrorMessage = "Email ï¿½ obrigatï¿½rio")]
         public string Email { get; set; } = "";
-        [Required(ErrorMessage = "Telefone é obrigatório")]
+        [Required(ErrorMessage = "Telefone ï¿½ obrigatï¿½rio")]
         public string Telefone { get; set; } = "";
-        [Required(ErrorMessage = "Endereco é obrigatório")]
+        [Required(ErrorMessage = "Endereco ï¿½ obrigatï¿½rio")]
         public string Endereco { get; set; } = "";
-        [Required(ErrorMessage = "Complemento é obrigatório")]
+        [Required(ErrorMessage = "Complemento ï¿½ obrigatï¿½rio")]
         public string Complemento { get; set; } = "";
-        [Required(ErrorMessage = "Bairro é obrigatório")]
+        [Required(ErrorMessage = "Bairro ï¿½ obrigatï¿½rio")]
         public string Bairro { get; set; } = "";
-        [Required(ErrorMessage = "Municipio é obrigatório")]
+        [Required(ErrorMessage = "Municipio ï¿½ obrigatï¿½rio")]
         public string Municipio { get; set; } = "";
-        [Required(ErrorMessage = "UF é obrigatório")]
+        [Required(ErrorMessage = "UF ï¿½ obrigatï¿½rio")]
         public string UF { get; set; } = "";
-        [Required(ErrorMessage = "CEP é obrigatório")]
+        [Required(ErrorMessage = "CEP ï¿½ obrigatï¿½rio")]
         public string CEP { get; set; } = "";
 
         internal void Update(Cadastro novoCadastro)
@@ -141,6 +140,12 @@ namespace CasaDoCodigo.Models
         {
 
         }
+
+        public Categoria(string nome)
+        {
+            Nome = nome;
+        }
+
         public string Nome { get; private set; }
     }
 }
