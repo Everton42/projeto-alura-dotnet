@@ -17,9 +17,9 @@ namespace CasaDoCodigo.Repositories
         }
 
 
-        public IList<Produto> GetProdutos()
+        public async Task<IList<Produto>> GetProdutos()
         {
-            return dbSet.Include(p => p.Categoria).ToList();
+            return await dbSet.Include(p => p.Categoria).ToListAsync();
         }
 
         public async Task SaveProdutos(List<Livro> livros)
@@ -40,6 +40,11 @@ namespace CasaDoCodigo.Repositories
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        public async Task<IList<Produto>> GetProdutos(string input)
+        {
+            return await dbSet.Include(p => p.Categoria).Where(p => p.Nome.Contains(input) || p.Categoria.Nome.Contains(input)).ToListAsync();
         }
     }
 

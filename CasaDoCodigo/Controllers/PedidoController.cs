@@ -72,15 +72,13 @@ namespace CasaDoCodigo.Controllers
             return await pedidoRepository.UpdateQuantidade(itemPedido);
         }
 
-        public async Task<IActionResult> BuscaDeProdutos(string produtoInput)
+        public async Task<IActionResult> BuscaDeProdutos(BuscaDeProdutosViewModel input)
         {
-            IList<Produto> produtos = null;
-            if (String.IsNullOrWhiteSpace(produtoInput))
-            {
-                produtos = produtoRepository.GetProdutos();
-            }
-
-            return View(produtos);
+            if (!String.IsNullOrWhiteSpace(input.Pesquisa))
+                input.Produtos = await produtoRepository.GetProdutos(input.Pesquisa);
+            else
+                input.Produtos = await produtoRepository.GetProdutos();
+            return View(input);
         }
     }
 }
